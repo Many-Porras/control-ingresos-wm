@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { LoginRequest, UsuarioLoginResponse } from '../models/login.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class AuthService {
+  private apiUrl = 'http://localhost:5202/api/Auth/login';
+
+  constructor(private http: HttpClient) {}
+
+  login(credentials: LoginRequest): Observable<UsuarioLoginResponse> {
+    return this.http.post<UsuarioLoginResponse>(this.apiUrl, credentials);
+  }
+}
