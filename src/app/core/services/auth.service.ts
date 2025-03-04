@@ -14,4 +14,17 @@ export class AuthService {
   login(credentials: LoginRequest): Observable<UsuarioLoginResponse> {
     return this.http.post<UsuarioLoginResponse>(this.apiUrl, credentials);
   }
+
+  setCurrentUser(user: UsuarioLoginResponse): void {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getCurrentUser(): UsuarioLoginResponse | null {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
+
+  logout(): void {
+    localStorage.removeItem('user');
+  }
 }

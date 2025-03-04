@@ -230,21 +230,21 @@
             role="menu"
             data-accordion="false"
           >
-            <li class="nav-item menu-open">
-              <a [routerLink]="['/dashboard']"  class="nav-link active">
+            <li *ngIf="user?.nombreRol === 'administradorWM'" class="nav-item menu-open">
+              <a routerLink="/dashboard" class="nav-link active">
                 <i class="nav-icon bi bi-speedometer"></i>
                 <p>Dashboard</p>
               </a>
             </li>
-            <li class="nav-header">COMITE</li>
+            <li *ngIf="user?.nombreRol" class="nav-header">COMITE</li>
             <li class="nav-item">
-              <a [routerLink]="['/raciones']" class="nav-link">
+              <a routerLink="/raciones" class="nav-link">
                 <i class="nav-icon bi bi-clipboard-fill"></i>
                 <p>Raciones</p>
               </a>
             </li>
-            <li class="nav-item">
-              <a [routerLink]="['/registro-compras']" class="nav-link">
+            <li *ngIf="user?.nombreRol" class="nav-item">
+              <a routerLink="/registro-compras" class="nav-link">
                 <i class="nav-icon bi bi-table"></i>
                 <p>Registro de Compras</p>
               </a>

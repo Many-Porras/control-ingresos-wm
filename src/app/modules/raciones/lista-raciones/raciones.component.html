@@ -9,32 +9,17 @@
             <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
             <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
           </button>
-          <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-tool dropdown-toggle"
-              data-bs-toggle="dropdown"
-            >
-              <i class="bi bi-wrench"></i>
-            </button>
-            <div class="dropdown-menu dropdown-menu-end" role="menu">
-              <a href="#" class="dropdown-item">Action</a>
-              <a href="#" class="dropdown-item">Another action</a>
-              <a href="#" class="dropdown-item"> Something else here </a>
-              <a class="dropdown-divider"></a>
-              <a href="#" class="dropdown-item">Separated link</a>
-            </div>
-          </div>
           <button type="button" class="btn btn-tool" data-lte-toggle="card-remove">
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
       </div>
       <!-- /.card-header -->
+
       <div class="card-body">
         <div class="row">
           <div class="col-md-2 col-6">
-            <div class="text-center border-end">
+            <div class="text-center border-end ">
               <span class="text-uppercase">Lima, Lima, Surco</span>
               <span class="text-uppercase">Colegio</span>
               <h5 class="fw-bold mb-0">José María 0034</h5>
@@ -42,14 +27,35 @@
           </div>
           <!-- /.col -->
           <div class="col-md-10 col-6">
-            <div class="text-center border-end">
+            <div class=" border-end">
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Raciones</h3>
                 </div>
                 <div class="card-body">
+                  <form [formGroup]="filtroForm">
+                  <div class="row mb-3 d-flex align-items-center flex-wrap">
+                    <div class="col-md-2 d-flex align-items-center">
+                      <label for="mes" class="me-2 fw-bold">Mes:</label>
+                      <select formControlName="mes" class="form-control form-control-sm">
+                        <option *ngFor="let m of meses" [value]="m.id">  {{ m.nombre }}</option>
+                      </select>
+                    </div>
+
+                    <div class="col-md-2 d-flex align-items-center">
+                      <label for="anio" class="me-2 fw-bold">Año:</label>
+                      <input type="number" formControlName="anio" class="form-control form-control-sm w-75" min="2000" max="2100">
+                    </div>
+
+                    <div class="col-md-4 d-flex align-items-center ms-auto">
+                      <label for="beneficiarios" class="me-2 fw-bold">Cantidad de beneficiarios:</label>
+                      <input type="number" formControlName="beneficiarios" class="form-control form-control-sm w-25" min="0" placeholder="Ingrese cantidad">
+                    </div>
+                  </div>
+                </form>
+
                   <table class="table table-bordered">
-                    <thead>
+                    <thead class="table-light">
                       <tr>
                         <th>Fecha</th>
                         <th>Ración</th>
@@ -59,19 +65,38 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>Lunes, 1 de marzo</td>
-                        <td>quinua con leche y pan con pescado guisado</td>
+                      <tr *ngFor="let racion of racionesSeleccionadas">
+                        <td>{{ obtenerDiaYNombre(racion.fecha) }}</td>
+                        <td>{{ racion.nombreRacion }}</td>
                         <td>1era</td>
-                        <td>confirmar</td>
-                        <td>ingresar observaciones</td>
+                        <td>
+                          <button class="btn btn-secondary btn-sm">Confirmar</button>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control form-control-sm" placeholder="Ingresar observaciones">
+                        </td>
                       </tr>
+                      <!-- Fila para agregar nuevas raciones -->
                       <tr>
-                        <td>Lunes, 1 de marzo</td>
-                        <td>qMaca con piña y pan con pollo</td>
+                        <td>
+                          <select [(ngModel)]="nuevaRacion.fecha" class="form-control form-control-sm">
+                            <option value="">Seleccionar fecha</option>
+                            <option *ngFor="let fecha of fechasDisponibles" [value]="fecha">{{ obtenerDiaYNombre(fecha) }}</option>
+                          </select>
+                        </td>
+                        <td>
+                          <select [(ngModel)]="nuevaRacion.nombreRacion" class="form-control form-control-sm">
+                            <option value="">Seleccionar ración</option>
+                            <option *ngFor="let racion of raciones" [value]="racion.nombreRacion">{{ racion.nombreRacion  }}</option>
+                          </select>
+                        </td>
                         <td>1era</td>
-                        <td>confirmar</td>
-                        <td>ingresar observaciones</td>
+                        <td>
+                          <button class="btn btn-secondary btn-sm" (click)="agregarRacion()">Confirmar</button>
+                        </td>
+                        <td>
+                          <input type="text" class="form-control form-control-sm" [(ngModel)]="nuevaRacion.observaciones" placeholder="Ingresar observaciones">
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -83,17 +108,16 @@
         </div>
       </div>
       <!-- ./card-body -->
-      <div class="card-footer">
-        <!--begin::Row-->
 
-        <!--end::Row-->
+      <div class="card-footer gap-4 text-end d-md-flex justify-content-md-end">
+        <button class="btn btn-primary btn-xs">Generar conformidad del mes</button>
+        <button class="btn btn-danger btn-xs">Cargar conformidad firmada</button>
       </div>
       <!-- /.card-footer -->
+
     </div>
     <!-- /.card -->
   </div>
   <!-- /.col -->
 </div>
 <!--end::Row-->
-<!--  -->
-
